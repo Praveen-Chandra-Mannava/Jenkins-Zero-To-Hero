@@ -6,6 +6,11 @@ pipeline {
     }
   }
   stages {
+   stage('Install Git') {
+     steps {
+       sh 'apt-get update && apt-get install -y git'
+     }
+   }
     stage('Checkout') {
       steps {
         sh 'echo passed'
