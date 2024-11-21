@@ -7,7 +7,6 @@
     <groupId>com.abhishek</groupId>
     <artifactId>spring-boot-demo</artifactId>
     <version>1.0</version>
-
     <name>spring-boot-demo</name>
     <url></url>
 
@@ -22,6 +21,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>11</java.version>
+        <sonar.login>${env.SONAR_TOKEN}</sonar.login> <!-- SonarQube authentication token -->
     </properties>
 
     <dependencies>
@@ -40,24 +40,34 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- debugging -->
+        <!-- Debugging dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
 
+        <!-- JaCoCo code coverage plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.core</artifactId>
+            <version>0.8.7</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
-
         <finalName>spring-boot-web</finalName>
 
         <plugins>
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -68,8 +78,37 @@
                 </configuration>
             </plugin>
 
+            <!-- JaCoCo Plugin for code coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- SonarQube Plugin -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>4.0.0.4121</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sonar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
-
 
 </project>
